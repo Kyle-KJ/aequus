@@ -2,7 +2,9 @@
 # Stock Price Info GUI
 
 import sys
-from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow, QPushButton, QAction
+
+from PyQt5.QtGui import QIcon
+from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow, QPushButton, QAction, QLabel, QComboBox
 from PyQt5.QtCore import QCoreApplication
 
 
@@ -12,9 +14,10 @@ class MainWindow(QMainWindow):
 
         super(MainWindow, self).__init__()
 
+        self.setGeometry(300, 300, 1618, 1000)
         self.setWindowTitle('Aequus')
         
-        # self.setWindowIcon(QIcon('img.png'))
+        self.setWindowIcon(QIcon('money-icon.png'))
 
         # self.setLayout(qtw.QVBoxLayout())
 
@@ -44,8 +47,7 @@ class MainWindow(QMainWindow):
         # Edit Menu Actions
         editMenu.addAction(testAction)
 
-
-        self.welcome()
+        self.stocks_list()
     
     def close_app(self):
         sys.exit()
@@ -56,12 +58,38 @@ class MainWindow(QMainWindow):
 
         # Buttons
 
-        exit_btn = QPushButton('Exit', self)
-
-        exit_btn.resize(exit_btn.sizeHint())
-        exit_btn.move(10,100)
+        stock_btn = QPushButton('Stocks List', self)
+        stock_btn.clicked.connect(self.stocks_list)
+        stock_btn.resize(100, 60)
+        stock_btn.move(100, 200)
 
         self.show()
+    
+    def stocks_list(self):
+
+        index_label = QLabel('Index:', self)
+        index_label.move(30, 20)
+
+        index_cb = QComboBox(self)
+        index_cb.addItem('SPY')
+        index_cb.addItem('DJI')
+        index_cb.addItem('IXIC')
+        index_cb.addItem('UKX')
+
+        index_cb.move(30, 50)
+
+        index_cb.activated[str].connect(self.get_stock_list)
+
+        self.show()
+
+    def get_stock_list(self, index):
+
+        # Call function to grab top n stocks in index data
+        
+        # For each item in list create line to display data
+
+        return
+
     
 def run_app():
     app = QApplication([])
